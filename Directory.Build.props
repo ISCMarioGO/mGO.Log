@@ -1,0 +1,16 @@
+<Project>
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>12</LangVersion>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <IsPackable>false</IsPackable>
+    <Version>1.0.0</Version>
+    <Authors>MarioGO</Authors>
+    <Company>MarioGO</Company>
+    <Copyright>Copyright © MarioGO 2026</Copyright>
+    <RepositoryUrl>https://github.com/ISCMarioGO/GO.Log</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+  </PropertyGroup>
+</Project>

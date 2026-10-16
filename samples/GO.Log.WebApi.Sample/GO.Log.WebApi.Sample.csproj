@@ -1,0 +1,5 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <ItemGroup>
+    <ProjectReference Include="../../src/GO.Log.Extensions.Hosting/GO.Log.Extensions.Hosting.csproj" />
+  </ItemGroup>
+</Project>
