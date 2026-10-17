@@ -1,0 +1,35 @@
+<Project>
+  <PropertyGroup>
+    <GOLogTraceInstrumentation Condition="'$(GOLogTraceInstrumentation)' == ''">true</GOLogTraceInstrumentation>
+    <_GOLogCommon>$(MSBuildThisFileDirectory)tools/Microsoft.CodeAnalysis.dll</_GOLogCommon>
+    <_GOLogCSharp>$(MSBuildThisFileDirectory)tools/Microsoft.CodeAnalysis.CSharp.dll</_GOLogCSharp>
+    <_GOLogImmutable>$(MSBuildThisFileDirectory)tools/System.Collections.Immutable.dll</_GOLogImmutable>
+    <_GOLogMetadata>$(MSBuildThisFileDirectory)tools/System.Reflection.Metadata.dll</_GOLogMetadata>
+    <_GOLogCommon Condition="!Exists('$(_GOLogCommon)')">$(NuGetPackageRoot)/microsoft.codeanalysis.common/4.11.0/lib/netstandard2.0/Microsoft.CodeAnalysis.dll</_GOLogCommon>
+    <_GOLogCSharp Condition="!Exists('$(_GOLogCSharp)')">$(NuGetPackageRoot)/microsoft.codeanalysis.csharp/4.11.0/lib/netstandard2.0/Microsoft.CodeAnalysis.CSharp.dll</_GOLogCSharp>
+    <_GOLogImmutable Condition="!Exists('$(_GOLogImmutable)')">$(NuGetPackageRoot)/system.collections.immutable/8.0.0/lib/netstandard2.0/System.Collections.Immutable.dll</_GOLogImmutable>
+    <_GOLogMetadata Condition="!Exists('$(_GOLogMetadata)')">$(NuGetPackageRoot)/system.reflection.metadata/8.0.0/lib/netstandard2.0/System.Reflection.Metadata.dll</_GOLogMetadata>
+  </PropertyGroup>
+  <UsingTask TaskName="GOLogTraceRewrite" TaskFactory="RoslynCodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)/Microsoft.Build.Tasks.Core.dll">
+    <Task>
+      <Reference Include="$(_GOLogCommon)" />
+      <Reference Include="$(_GOLogCSharp)" />
+      <Reference Include="$(_GOLogImmutable)" />
+      <Reference Include="$(_GOLogMetadata)" />
+      <Code Type="Class" Language="cs" Source="$(MSBuildThisFileDirectory)GOLogTraceRewrite.cs" />
+    </Task>
+  </UsingTask>
+  <Target Name="GOLogInstrumentTraceMethods" BeforeTargets="CoreCompile" DependsOnTargets="ResolveReferences"
+          Condition="'$(GOLogTraceInstrumentation)' == 'true' and '$(DesignTimeBuild)' != 'true' and '$(Language)' == 'C#'">
+    <GOLogTraceRewrite Sources="@(Compile)" References="@(ReferencePathWithRefAssemblies)" OutputDirectory="$(IntermediateOutputPath)golog-trace"
+                       Constants="$(DefineConstants)" LanguageVersion="$(LangVersion)" ProjectDirectory="$(MSBuildProjectDirectory)">
+      <Output TaskParameter="OriginalSources" ItemName="_GOLogTraceOriginals" />
+      <Output TaskParameter="RewrittenSources" ItemName="_GOLogTraceRewritten" />
+    </GOLogTraceRewrite>
+    <ItemGroup>
+      <Compile Remove="@(_GOLogTraceOriginals)" />
+      <Compile Include="@(_GOLogTraceRewritten)" />
+      <FileWrites Include="@(_GOLogTraceRewritten)" />
+    </ItemGroup>
+  </Target>
+</Project>

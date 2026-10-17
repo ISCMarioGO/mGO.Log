@@ -1,7 +1,3 @@
-# Estilos y buenas prácticas adaptados de common.library.log
-
-Se revisó la biblioteca local `C:\Proyectos\Tamsa\Source\common.library.log`, en particular `LogMessage.cs`, `LogConfiguration.cs`, `Constants.cs`, `Worker.cs`, `LogWriter.cs`, `Trace.cs`, `TraceAttribute.cs` y la configuración de su Tester. GO.Log implementa estos conceptos con su propio motor .NET 8; no requiere esa biblioteca en compilación ni ejecución.
-
 ## Estilos
 
 | Estilo | Uso | Presentación |
@@ -80,7 +76,7 @@ Al usar `Console.Enabled=true`, evite registrar además el proveedor Console est
 | Concepto de la referencia | Implementación/práctica en GO.Log |
 |---|---|
 | Columnas, dirección, identación y unidades temporales | Preset Trace, GOLogEventKind y snapshots de operación/proceso/hilo |
-| Trace.Enter/Leave y atributos de métodos | BeginGOLogOperation explícito con scopes externos de ILogger; sin PostSharp ni estado global |
+| Trace.Enter/Leave y atributos de métodos | BeginGOLogOperation explícito o decoradores Trace.Debug/Information con instrumentación MSBuild; scopes externos de ILogger, sin PostSharp ni estado global |
 | Mensajes por severidad y filtros | Niveles oficiales de .NET, filtros del host y MinimumLevel; Message corresponde a Information |
 | Consola adicional y colores | Sink opcional en el mismo consumidor, con detección de redirección y separación stdout/stderr |
 | Cola y flush periódico | Canal acotado existente, lotes, conteo preciso y barreras FlushAsync |
@@ -89,6 +85,8 @@ Al usar `Console.Enabled=true`, evite registrar además el proveedor Console est
 | Captura completa de excepciones | Tipo, mensaje, stack e inner exceptions estructurados y sujetos a límites, con presentación configurable |
 
 El archivado GZip, profiling global, hooks de assembly load/excepciones no controladas y configuración XML del sistema anterior no forman parte de esta adaptación de estilos. No se modifica el repositorio de referencia. La escritura sigue siendo asíncrona y los errores se contabilizan, conservando la arquitectura y restricciones de GO.Log.
+
+Los decoradores `[Trace.Debug]` y demás niveles registran entrada/salida automáticamente al compilar la implementación del método. Admiten métodos privados, estáticos y async, utilizando un logger del consumidor. Véase [method-decorators.md](method-decorators.md).
 
 ## Verificación
 

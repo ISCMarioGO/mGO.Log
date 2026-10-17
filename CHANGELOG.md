@@ -1,9 +1,16 @@
 # Changelog
 
+## 1.0.0 — Ampliación 2026-10-17
+
+- Decoradores [Trace.Debug], [Trace.Information] y demás niveles, más GOTrace con nivel configurable.
+- Instrumentación MSBuild incluida en NuGet y referencias locales, con archivos temporales en obj y ubicación original mediante #line.
+- Registro de entrada/salida para métodos privados/estáticos/genéricos, async, Task/ValueTask devueltos sin async e iteradores; conserva resultados, excepciones, cancelación y scopes.
+- Pruebas de atributos reales, compilación con Visual Studio 2022 y consumidor NuGet aislado; documentación de usos y límites.
+
 ## 1.0.0 — 2026-10-16
 
 - File.AppendOnStartup permite elegir entre archivo nuevo por ejecución (predeterminado) o continuación del último archivo compatible; respeta fecha, tamaño, formato y propiedad sin truncar contenido.
-- Estilos TXT Standard/Compact/Trace configurables, columnas de proceso/hilo y marcadores de dirección/severidad inspirados en common.library.log.
+- Estilos TXT Standard/Compact/Trace configurables, columnas de proceso/hilo y marcadores de dirección/severidad.
 - Scopes explícitos BeginGOLogOperation con duración monotónica, anidamiento asíncrono y eventos Enter/Leave estructurados.
 - Destino de consola asíncrono opcional con stdout/stderr y colores desactivados al redirigir; escape de caracteres de control en texto.
 

@@ -5,10 +5,30 @@
     <Description>Bounded asynchronous structured logging engine and rotating file sink for .NET 8.</Description>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <!-- Bundled Roslyn DLLs are MSBuild tooling, deliberately not consumer/runtime references under lib/. -->
+    <NoWarn>$(NoWarn);NU5100</NoWarn>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.1" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.11.0" PrivateAssets="all" ExcludeAssets="all" GeneratePathProperty="true" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="4.11.0" PrivateAssets="all" ExcludeAssets="all" GeneratePathProperty="true" />
+    <PackageReference Include="System.Collections.Immutable" Version="8.0.0" PrivateAssets="all" ExcludeAssets="all" GeneratePathProperty="true" />
+    <PackageReference Include="System.Reflection.Metadata" Version="8.0.0" PrivateAssets="all" ExcludeAssets="all" GeneratePathProperty="true" />
     <ProjectReference Include="../GO.Log.Abstractions/GO.Log.Abstractions.csproj" />
     <None Include="../../README.md" Pack="true" PackagePath="/" />
+    <None Update="buildTransitive/GO.Log.targets" Pack="true" PackagePath="buildTransitive/GO.Log.targets" />
+    <Compile Remove="buildTransitive/GOLogTraceRewrite.cs" />
+    <None Include="buildTransitive/GOLogTraceRewrite.cs" Pack="true" PackagePath="buildTransitive/GOLogTraceRewrite.cs" />
+    <None Include="$(PkgMicrosoft_CodeAnalysis_CSharp)/lib/netstandard2.0/Microsoft.CodeAnalysis.CSharp.dll" Pack="true" PackagePath="buildTransitive/tools/" Visible="false" />
+    <None Include="$(PkgMicrosoft_CodeAnalysis_Common)/lib/netstandard2.0/Microsoft.CodeAnalysis.dll" Pack="true" PackagePath="buildTransitive/tools/" Visible="false" />
+    <None Include="$(PkgSystem_Collections_Immutable)/lib/netstandard2.0/System.Collections.Immutable.dll" Pack="true" PackagePath="buildTransitive/tools/" Visible="false" />
+    <None Include="$(PkgSystem_Reflection_Metadata)/lib/netstandard2.0/System.Reflection.Metadata.dll" Pack="true" PackagePath="buildTransitive/tools/" Visible="false" />
+    <None Include="../../THIRD-PARTY-NOTICES.md" Pack="true" PackagePath="/" />
+    <None Include="$(PkgMicrosoft_CodeAnalysis_Common)/ThirdPartyNotices.rtf" Pack="true" PackagePath="buildTransitive/licenses/CodeAnalysis.Common.Notices.rtf" Visible="false" />
+    <None Include="$(PkgMicrosoft_CodeAnalysis_CSharp)/ThirdPartyNotices.rtf" Pack="true" PackagePath="buildTransitive/licenses/CodeAnalysis.CSharp.Notices.rtf" Visible="false" />
+    <None Include="$(PkgSystem_Collections_Immutable)/LICENSE.TXT" Pack="true" PackagePath="buildTransitive/licenses/Collections.Immutable.LICENSE.TXT" Visible="false" />
+    <None Include="$(PkgSystem_Collections_Immutable)/THIRD-PARTY-NOTICES.TXT" Pack="true" PackagePath="buildTransitive/licenses/Collections.Immutable.NOTICES.TXT" Visible="false" />
+    <None Include="$(PkgSystem_Reflection_Metadata)/LICENSE.TXT" Pack="true" PackagePath="buildTransitive/licenses/Reflection.Metadata.LICENSE.TXT" Visible="false" />
+    <None Include="$(PkgSystem_Reflection_Metadata)/THIRD-PARTY-NOTICES.TXT" Pack="true" PackagePath="buildTransitive/licenses/Reflection.Metadata.NOTICES.TXT" Visible="false" />
   </ItemGroup>
 </Project>

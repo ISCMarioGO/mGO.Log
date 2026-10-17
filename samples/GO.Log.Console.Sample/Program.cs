@@ -23,6 +23,8 @@ using (logger.BeginScope(new Dictionary<string, object?> { ["Operation"] = "Cons
         return ValueTask.CompletedTask;
     });
 }
+
+await new AttributedWorker(host.Services.GetRequiredService<ILogger<AttributedWorker>>()).RunAsync();
 await host.Services.GetRequiredService<GOLoggerProvider>().FlushAsync();
 await host.StopAsync();
 System.Console.WriteLine("Logs written to logs/. Host stopped cleanly.");

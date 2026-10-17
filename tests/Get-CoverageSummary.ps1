@@ -1,5 +1,5 @@
 param(
-    [string]$ResultsDirectory = (Join-Path $PSScriptRoot '../artifacts/startup-final'),
+    [string]$ResultsDirectory = (Join-Path $PSScriptRoot '../artifacts/decorators-final'),
     [double]$MinimumLineCoverage = 80
 )
 

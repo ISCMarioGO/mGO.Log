@@ -2,7 +2,22 @@
 
 Motor propio de logging estructurado para .NET 8, compatible con `ILogger<T>`, con cola acotada, escritura asíncrona por lotes y archivos TXT o JSON Lines.
 
-Incluye estilos de texto `Standard`, `Compact` y `Trace`, consola opcional con colores y scopes de operación con entrada/salida, anidamiento y duración. La adaptación de los conceptos de `common.library.log` se documenta en [estilos y buenas prácticas](docs/log-styles.md).
+Incluye estilos de texto `Standard`, `Compact` y `Trace`, consola opcional con colores y scopes de operación con entrada/salida, anidamiento y duración.
+
+Para registrar automáticamente inicio y fin de métodos, use decoradores con el logger de la clase:
+
+```csharp
+using Trace = GO.Log.Attributes.Trace;
+
+[Trace.Debug]
+public async Task ExecuteAsync()
+{
+    await Task.Yield();
+    _logger.LogInformation("Executing operation");
+}
+```
+
+La clase debe tener un campo/propiedad `_logger` de tipo `ILogger`, o indicarlo con `[Trace.Debug(nameof(Logger))]`. Habilite Debug en los filtros del host y GO.Log. La instrumentación se incluye en la compilación del paquete, espera la finalización asíncrona y no requiere llamadas manuales a Begin/End. [Uso y límites de los decoradores](docs/method-decorators.md).
 
 ## Requisitos e instalación
 
