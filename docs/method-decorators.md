@@ -1,12 +1,12 @@
 # Decoradores de métodos
 
-GO.Log permite registrar automáticamente entrada y salida mediante `[Trace.Debug]`, `[Trace.Information]` y los demás niveles. La instrumentación se ejecuta durante MSBuild; el atributo no depende de interceptores de DI, reflexión por llamada, singletons globales ni PostSharp. Funciona también al llamar directamente a un método privado o estático.
+mGO.Log permite registrar automáticamente entrada y salida mediante `[Trace.Debug]`, `[Trace.Information]` y los demás niveles. La instrumentación se ejecuta durante MSBuild; el atributo no depende de interceptores de DI, reflexión por llamada, singletons globales ni PostSharp. Funciona también al llamar directamente a un método privado o estático.
 
 ## Uso
 
 ```csharp
 using Microsoft.Extensions.Logging;
-using Trace = GO.Log.Attributes.Trace;
+using Trace = mGO.Log.Attributes.Trace;
 
 public sealed class OrderService(ILogger<OrderService> logger)
 {
@@ -22,7 +22,7 @@ public sealed class OrderService(ILogger<OrderService> logger)
 }
 ```
 
-El alias `using Trace = GO.Log.Attributes.Trace;` evita ambigüedades con `System.Diagnostics.Trace`. Configure tanto los filtros del host como GO.Log para Debug:
+El alias `using Trace = mGO.Log.Attributes.Trace;` evita ambigüedades con `System.Diagnostics.Trace`. Configure tanto los filtros del host como mGO.Log para Debug:
 
 ```csharp
 builder.Logging.SetMinimumLevel(LogLevel.Debug);
@@ -57,7 +57,7 @@ En el primer ejemplo la clase debe exponer una propiedad o campo `Logger` accesi
 Alternativa con nivel explícito:
 
 ```csharp
-using GO.Log.Attributes;
+using mGO.Log.Attributes;
 
 [GOTrace(LogLevel.Debug, loggerMemberName: nameof(_logger), operationName: "Orders.Save")]
 public void Save() { /* implementación de la aplicación */ }
@@ -67,7 +67,7 @@ La configuración de scopes y enmascaramiento del proveedor sigue vigente. No se
 
 ## Compilación
 
-Al consumir los paquetes, `GO.Log` incluye el target `buildTransitive/GO.Log.targets` y herramientas oficiales de Roslyn para analizar los atributos. No se agregan motores de logging externos ni dependencias de compilador a las referencias de runtime de la aplicación. Se conservan los ocho proyectos de la solución.
+Al consumir los paquetes, `mGO.Log` incluye el target `buildTransitive/mGO.Log.targets` y herramientas oficiales de Roslyn para analizar los atributos. No se agregan motores de logging externos ni dependencias de compilador a las referencias de runtime de la aplicación. Se conservan los ocho proyectos de la solución.
 
 Antes de CoreCompile se generan copias instrumentadas solo de los archivos afectados dentro de `obj/<configuración>/<framework>/golog-trace`. Se compilan esas copias; los archivos originales no se modifican. Las directivas `#line` mantienen la ubicación original de las líneas de código del usuario en diagnósticos y depuración. En referencias de proyecto dentro de este repositorio, `Directory.Build.targets` importa el mismo target que se distribuye por NuGet.
 

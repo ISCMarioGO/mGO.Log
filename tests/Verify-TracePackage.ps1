@@ -1,7 +1,7 @@
 param([string]$PackageDirectory = (Join-Path $PSScriptRoot '../artifacts/nuget'))
 
 $ErrorActionPreference = 'Stop'
-$workspace = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot 'GO.Log.IntegrationTests/obj/trace-package-smoke'))
+$workspace = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot 'mGO.Log.IntegrationTests/obj/trace-package-smoke'))
 New-Item -ItemType Directory -Path $workspace -Force | Out-Null
 $packageSource = [IO.Path]::GetFullPath($PackageDirectory)
 $project = Join-Path $workspace 'TraceConsumer.csproj'
@@ -12,16 +12,16 @@ $project = Join-Path $workspace 'TraceConsumer.csproj'
     <ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable><TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <DefaultItemExcludes>$(DefaultItemExcludes);packages/**</DefaultItemExcludes>
   </PropertyGroup>
-  <ItemGroup><PackageReference Include="GO.Log.Extensions.Hosting" Version="1.0.0" /></ItemGroup>
+  <ItemGroup><PackageReference Include="mGO.Log.Extensions.Hosting" Version="1.0.0" /></ItemGroup>
 </Project>
 '@ | Set-Content -LiteralPath $project
 $program = @'
-using GO.Log.Providers;
+using mGO.Log.Providers;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System.Text.Json;
-using Trace = GO.Log.Attributes.Trace;
+using Trace = mGO.Log.Attributes.Trace;
 
 var logs = Path.Combine(AppContext.BaseDirectory, "logs-" + Guid.NewGuid().ToString("N"));
 var builder = Host.CreateApplicationBuilder();

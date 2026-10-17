@@ -1,5 +1,5 @@
 <Project>
   <!-- ProjectReference does not import NuGet buildTransitive assets. Exercise the same target locally. -->
-  <Import Project="$(MSBuildThisFileDirectory)src/GO.Log/buildTransitive/GO.Log.targets"
-          Condition="'$(MSBuildProjectName)' != 'GO.Log' and '$(MSBuildProjectName)' != 'GO.Log.Abstractions' and '$(MSBuildProjectName)' != 'GO.Log.Extensions.Hosting'" />
+  <Import Project="$(MSBuildThisFileDirectory)src/mGO.Log/buildTransitive/mGO.Log.targets"
+          Condition="'$(MSBuildProjectName)' != 'mGO.Log' and '$(MSBuildProjectName)' != 'mGO.Log.Abstractions' and '$(MSBuildProjectName)' != 'mGO.Log.Extensions.Hosting'" />
 </Project>

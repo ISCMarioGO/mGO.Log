@@ -1,4 +1,4 @@
-# GO.Log 1.0.0
+# mGO.Log 1.0.0
 
 Motor propio de logging estructurado para .NET 8, compatible con `ILogger<T>`, con cola acotada, escritura asíncrona por lotes y archivos TXT o JSON Lines.
 
@@ -7,7 +7,7 @@ Incluye estilos de texto `Standard`, `Compact` y `Trace`, consola opcional con c
 Para registrar automáticamente inicio y fin de métodos, use decoradores con el logger de la clase:
 
 ```csharp
-using Trace = GO.Log.Attributes.Trace;
+using Trace = mGO.Log.Attributes.Trace;
 
 [Trace.Debug]
 public async Task ExecuteAsync()
@@ -17,7 +17,7 @@ public async Task ExecuteAsync()
 }
 ```
 
-La clase debe tener un campo/propiedad `_logger` de tipo `ILogger`, o indicarlo con `[Trace.Debug(nameof(Logger))]`. Habilite Debug en los filtros del host y GO.Log. La instrumentación se incluye en la compilación del paquete, espera la finalización asíncrona y no requiere llamadas manuales a Begin/End. [Uso y límites de los decoradores](docs/method-decorators.md).
+La clase debe tener un campo/propiedad `_logger` de tipo `ILogger`, o indicarlo con `[Trace.Debug(nameof(Logger))]`. Habilite Debug en los filtros del host y mGO.Log. La instrumentación se incluye en la compilación del paquete, espera la finalización asíncrona y no requiere llamadas manuales a Begin/End. [Uso y límites de los decoradores](docs/method-decorators.md).
 
 ## Requisitos e instalación
 
@@ -26,10 +26,10 @@ La clase debe tener un campo/propiedad `_logger` de tipo `ILogger`, o indicarlo 
 Los tres paquetes se generan localmente; no se han publicado a un registro remoto:
 
 ```powershell
-dotnet add package GO.Log.Extensions.Hosting --version 1.0.0 --source ./artifacts/nuget
+dotnet add package mGO.Log.Extensions.Hosting --version 1.0.0 --source ./artifacts/nuget
 ```
 
-Referencias: `GO.Log.Extensions.Hosting` → `GO.Log` → `GO.Log.Abstractions`. El paquete de hosting incluye las dependencias transitivas necesarias.
+Referencias: `mGO.Log.Extensions.Hosting` → `mGO.Log` → `mGO.Log.Abstractions`. El paquete de hosting incluye las dependencias transitivas necesarias.
 
 ## Configuración y ASP.NET Core
 
@@ -62,7 +62,7 @@ También se admite `builder.Logging.AddGOLog(options => { options.ApplicationNam
 ## Console, propiedades y excepciones
 
 ```csharp
-using GO.Log.Providers;
+using mGO.Log.Providers;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -89,7 +89,7 @@ Las excepciones incluyen tipo, mensaje, stack e inner exceptions en `ExceptionDe
 Para usar columnas y marcadores de la biblioteca de referencia:
 
 ```csharp
-using GO.Log.Configuration;
+using mGO.Log.Configuration;
 
 builder.Logging.AddGOLog(options =>
 {
@@ -152,8 +152,8 @@ Los contadores `Processed`, `Dropped`, `Failed`, `SinkFailures` y `CaptureFailur
 dotnet restore All.sln
 dotnet build All.sln --configuration Release
 dotnet test All.sln --configuration Release
-dotnet run --project samples/GO.Log.Console.Sample
-dotnet run --project samples/GO.Log.WebApi.Sample
+dotnet run --project samples/mGO.Log.Console.Sample
+dotnet run --project samples/mGO.Log.WebApi.Sample
 ```
 
 Web API: `/health`, `/test-log` y `/test-error`. Detalles: [arquitectura](docs/architecture.md), [opciones](docs/configuration.md), [inicio](docs/getting-started.md), [pruebas](docs/testing.md) y [reporte técnico](docs/implementation-report.md).

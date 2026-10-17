@@ -1,13 +1,13 @@
-# Build tooling bundled with GO.Log
+# Build tooling bundled with mGO.Log
 
-The GO.Log package includes these Microsoft tools solely for MSBuild method-tracing instrumentation. They are not logging engines and are not added as application runtime references:
+The mGO.Log package includes these Microsoft tools solely for MSBuild method-tracing instrumentation. They are not logging engines and are not added as application runtime references:
 
 - Microsoft.CodeAnalysis.Common 4.11.0 — Copyright © Microsoft Corporation. All rights reserved. MIT.
 - Microsoft.CodeAnalysis.CSharp 4.11.0 — Copyright © Microsoft Corporation. All rights reserved. MIT.
 - System.Collections.Immutable 8.0.0 — Copyright (c) .NET Foundation and Contributors. MIT.
 - System.Reflection.Metadata 8.0.0 — Copyright (c) .NET Foundation and Contributors. MIT.
 
-Original license and third-party notice files from the restored packages are included under `buildTransitive/licenses/` in the NuGet package. GO.Log's own LICENSE is unchanged.
+Original license and third-party notice files from the restored packages are included under `buildTransitive/licenses/` in the NuGet package. mGO.Log's own LICENSE is unchanged.
 
 ## MIT License
 

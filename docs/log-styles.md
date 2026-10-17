@@ -2,7 +2,7 @@
 
 | Estilo | Uso | Presentación |
 |---|---|---|
-| Standard | TXT detallado original de GO.Log | Timestamp, nivel, aplicación, categoría, EventId, mensaje, plantilla y contexto |
+| Standard | TXT detallado original de mGO.Log | Timestamp, nivel, aplicación, categoría, EventId, mensaje, plantilla y contexto |
 | Compact | Lectura rápida o consola | Timestamp, nivel abreviado TRC/DBG/INF/WRN/ERR/CRT, categoría y mensaje |
 | Trace | Diagnóstico de flujos, inspirado en la referencia | Marcador, timestamp, columnas alineadas de proceso/hilo, nivel, tiempo de operación, categoría, profundidad y mensaje |
 
@@ -69,11 +69,11 @@ El tiempo se mide con `Stopwatch` y se copia al evento; timestamp y duración cu
 
 Los colores se deshabilitan automáticamente al redirigir cada flujo o al inyectar `TextWriter`. Los escritores permanecen bajo propiedad del llamante; el sink los vacía y nunca los dispone. Los eventos se enmascaran antes de llegar a la consola. El formato TXT escapa CR/LF/TAB, controles ANSI y separadores Unicode de línea para evitar líneas o secuencias de terminal introducidas por datos del consumidor.
 
-Al usar `Console.Enabled=true`, evite registrar además el proveedor Console estándar si no desea salida duplicada. `builder.Logging.ClearProviders()` seguido de `AddGOLog(...)` selecciona exclusivamente los destinos de GO.Log.
+Al usar `Console.Enabled=true`, evite registrar además el proveedor Console estándar si no desea salida duplicada. `builder.Logging.ClearProviders()` seguido de `AddGOLog(...)` selecciona exclusivamente los destinos de mGO.Log.
 
 ## Decisiones de adaptación
 
-| Concepto de la referencia | Implementación/práctica en GO.Log |
+| Concepto de la referencia | Implementación/práctica en mGO.Log |
 |---|---|
 | Columnas, dirección, identación y unidades temporales | Preset Trace, GOLogEventKind y snapshots de operación/proceso/hilo |
 | Trace.Enter/Leave y atributos de métodos | BeginGOLogOperation explícito o decoradores Trace.Debug/Information con instrumentación MSBuild; scopes externos de ILogger, sin PostSharp ni estado global |
@@ -84,7 +84,7 @@ Al usar `Console.Enabled=true`, evite registrar además el proveedor Console est
 | Mensaje final de cierre | Diagnósticos verificables Processed/Dropped/Failed; no se afirma ausencia de pérdidas solo por escribir una despedida |
 | Captura completa de excepciones | Tipo, mensaje, stack e inner exceptions estructurados y sujetos a límites, con presentación configurable |
 
-El archivado GZip, profiling global, hooks de assembly load/excepciones no controladas y configuración XML del sistema anterior no forman parte de esta adaptación de estilos. No se modifica el repositorio de referencia. La escritura sigue siendo asíncrona y los errores se contabilizan, conservando la arquitectura y restricciones de GO.Log.
+El archivado GZip, profiling global, hooks de assembly load/excepciones no controladas y configuración XML del sistema anterior no forman parte de esta adaptación de estilos. No se modifica el repositorio de referencia. La escritura sigue siendo asíncrona y los errores se contabilizan, conservando la arquitectura y restricciones de mGO.Log.
 
 Los decoradores `[Trace.Debug]` y demás niveles registran entrada/salida automáticamente al compilar la implementación del método. Admiten métodos privados, estáticos y async, utilizando un logger del consumidor. Véase [method-decorators.md](method-decorators.md).
 

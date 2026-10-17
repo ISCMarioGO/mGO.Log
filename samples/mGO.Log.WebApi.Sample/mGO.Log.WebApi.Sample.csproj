@@ -1,0 +1,5 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <ItemGroup>
+    <ProjectReference Include="../../src/mGO.Log.Extensions.Hosting/mGO.Log.Extensions.Hosting.csproj" />
+  </ItemGroup>
+</Project>

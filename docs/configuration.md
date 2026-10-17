@@ -1,6 +1,6 @@
-# Configuración de GO.Log
+# Configuración de mGO.Log
 
-Las opciones públicas están en `GO.Log.Configuration`. `AddGOLog(IConfiguration)` recibe la sección `GOLog`; `AddGOLog(Action<GOLogOptions>)` configura por código. Se capturan al crear el motor y no se recargan. Las validaciones se ejecutan también para uso directo sin host. Referencia completa de JSON: `samples/GO.Log.WebApi.Sample/appsettings.json`.
+Las opciones públicas están en `mGO.Log.Configuration`. `AddGOLog(IConfiguration)` recibe la sección `GOLog`; `AddGOLog(Action<GOLogOptions>)` configura por código. Se capturan al crear el motor y no se recargan. Las validaciones se ejecutan también para uso directo sin host. Referencia completa de JSON: `samples/mGO.Log.WebApi.Sample/appsettings.json`.
 
 | Opción | Predeterminado | Semántica / validación |
 |---|---|---|
@@ -47,10 +47,10 @@ No desactive el enmascaramiento para registrar credenciales. Los valores de prop
 Para configuración avanzada de sinks:
 
 ```csharp
-using GO.Log.Configuration;
-using GO.Log.Providers;
-using GO.Log.Sinks;
-using GO.Log.Formatters;
+using mGO.Log.Configuration;
+using mGO.Log.Providers;
+using mGO.Log.Sinks;
+using mGO.Log.Formatters;
 
 var options = new GOLogOptions { ApplicationName = "Worker" };
 await using var provider = new GOLoggerProvider(options,

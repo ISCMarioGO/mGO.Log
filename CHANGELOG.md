@@ -2,6 +2,7 @@
 
 ## 1.0.0 — Ampliación 2026-10-17
 
+- Prefijo mGO.Log en los ocho proyectos, directorios, ensamblados, namespaces y paquetes NuGet; solución All.sln y remoto Git conservados.
 - Decoradores [Trace.Debug], [Trace.Information] y demás niveles, más GOTrace con nivel configurable.
 - Instrumentación MSBuild incluida en NuGet y referencias locales, con archivos temporales en obj y ubicación original mediante #line.
 - Registro de entrada/salida para métodos privados/estáticos/genéricos, async, Task/ValueTask devueltos sin async e iteradores; conserva resultados, excepciones, cancelación y scopes.

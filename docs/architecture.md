@@ -5,16 +5,16 @@
 ```text
 All.sln
 ├─ src
-│  ├─ GO.Log.Abstractions   (Microsoft.Extensions.Logging.Abstractions)
-│  ├─ GO.Log               → Abstractions; Microsoft.Extensions.Logging
-│  └─ GO.Log.Extensions.Hosting → GO.Log; Microsoft.Extensions.Hosting
+│  ├─ mGO.Log.Abstractions   (Microsoft.Extensions.Logging.Abstractions)
+│  ├─ mGO.Log               → Abstractions; Microsoft.Extensions.Logging
+│  └─ mGO.Log.Extensions.Hosting → mGO.Log; Microsoft.Extensions.Hosting
 ├─ tests
-│  ├─ GO.Log.Tests         → GO.Log; xUnit; Coverlet
-│  ├─ GO.Log.IntegrationTests → Extensions.Hosting; xUnit; Coverlet; ASP.NET Core
-│  └─ GO.Log.Benchmarks    → GO.Log; BenchmarkDotNet
+│  ├─ mGO.Log.Tests         → mGO.Log; xUnit; Coverlet
+│  ├─ mGO.Log.IntegrationTests → Extensions.Hosting; xUnit; Coverlet; ASP.NET Core
+│  └─ mGO.Log.Benchmarks    → mGO.Log; BenchmarkDotNet
 └─ samples
-   ├─ GO.Log.Console.Sample → Extensions.Hosting
-   └─ GO.Log.WebApi.Sample → Extensions.Hosting; ASP.NET Core
+   ├─ mGO.Log.Console.Sample → Extensions.Hosting
+   └─ mGO.Log.WebApi.Sample → Extensions.Hosting; ASP.NET Core
 ```
 
 Abstractions contiene `IGOLogSink`, `IGOLogFormatter`, `GOLogEntry`, `GOLogEventKind` y los snapshots `GOLogExecutionContext`/`GOLogOperationContext`. Los modelos usan propiedades de solo lectura. El evento clona los `JsonElement` y usa diccionario/arreglo inmutables; no retiene objetos del consumidor ni la instancia de excepción.
@@ -71,4 +71,4 @@ Para usar otros destinos, implemente `IGOLogSink` y pase una colección explíci
 
 `BeginGOLogOperation` crea un scope lógico de `ILogger` y registra estados estructurados de entrada/salida. El proveedor identifica el scope más interno y copia nombre, profundidad y tiempo monotónico al evento, incluso cuando no se materializan ScopeProperties. El contexto de proceso se consulta al crear el proveedor; el hilo se captura durante Log. No se inspecciona la pila ni se modifica un AsyncLocal estático propio. Véase [la adaptación de estilos](log-styles.md).
 
-Los atributos `GO.Log.Attributes.Trace.*` y `GOTraceAttribute` agregan instrumentación de métodos mediante una tarea MSBuild distribuida en buildTransitive. Roslyn realiza análisis semántico para distinguir los atributos propios y genera copias en obj, con un GOLogMethodTrace dispuesto por using/finally. Para métodos no async con Task/ValueTask, el runtime espera la tarea en un wrapper y separa el scope del llamante inmediatamente, conservando el contexto de la continuación. Los métodos async e iteradores usan el finally de la máquina de estados del compilador. Las herramientas Roslyn son privadas de compilación y no referencias de runtime del consumidor; se incluyen avisos de sus licencias en el paquete. [Detalle de instrumentación](method-decorators.md).
+Los atributos `mGO.Log.Attributes.Trace.*` y `GOTraceAttribute` agregan instrumentación de métodos mediante una tarea MSBuild distribuida en buildTransitive. Roslyn realiza análisis semántico para distinguir los atributos propios y genera copias en obj, con un GOLogMethodTrace dispuesto por using/finally. Para métodos no async con Task/ValueTask, el runtime espera la tarea en un wrapper y separa el scope del llamante inmediatamente, conservando el contexto de la continuación. Los métodos async e iteradores usan el finally de la máquina de estados del compilador. Las herramientas Roslyn son privadas de compilación y no referencias de runtime del consumidor; se incluyen avisos de sus licencias en el paquete. [Detalle de instrumentación](method-decorators.md).

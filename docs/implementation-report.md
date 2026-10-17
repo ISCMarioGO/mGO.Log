@@ -1,8 +1,8 @@
-# Reporte técnico — GO.Log 1.0.0
+# Reporte técnico — mGO.Log 1.0.0
 
-Fecha: 16 de octubre de 2026. Repositorio: `GO.Log`. Implementación sobre la raíz existente, sin solución anidada. Se conservó `LICENSE` sin modificaciones. `.gitignore` se amplió para `.vs/` y artefactos de BenchmarkDotNet; los directorios `bin`, `obj`, `logs` y `artifacts` ya estaban excluidos.
+Fecha inicial: 16 de octubre de 2026. Producto: `mGO.Log`. Repositorio y directorio raíz: `GO.Log`. Implementación sobre la raíz existente, sin solución anidada. Se conservó `LICENSE` sin modificaciones. `.gitignore` se amplió para `.vs/` y artefactos de BenchmarkDotNet; los directorios `bin`, `obj`, `logs` y `artifacts` ya estaban excluidos.
 
-Última ampliación validada: 17 de octubre de 2026, decoradores de métodos e instrumentación de compilación.
+Última ampliación validada: 17 de octubre de 2026, decoradores de métodos, instrumentación de compilación y cambio de prefijo a `mGO.Log` en los ocho proyectos, namespaces y paquetes.
 
 ## Estructura y proyectos
 
@@ -16,12 +16,12 @@ CHANGELOG.md
 LICENSE
 THIRD-PARTY-NOTICES.md
 src/
-  GO.Log.Abstractions/
-    GO.Log.Abstractions.csproj
+  mGO.Log.Abstractions/
+    mGO.Log.Abstractions.csproj
     Interfaces/              IGOLogSink, IGOLogFormatter
     Models/                  GOLogEntry, GOLogEventKind, GOLogExecutionContext, GOLogOperationContext
-  GO.Log/
-    GO.Log.csproj
+  mGO.Log/
+    mGO.Log.csproj
     Configuration/           GOLogOptions, GOLogFileOptions, GOLogQueueOptions, GOLogSecurityOptions, GOLogTextOptions, GOLogConsoleOptions
     Models/                  QueuedLogEntry
     Providers/               GOLogger, GOLoggerProvider
@@ -31,25 +31,25 @@ src/
     Formatters/              GOTextFormatter, GOJsonFormatter
     Diagnostics/             GOLogDiagnostics, GOLogOperation, GOLogMethodTrace
     Attributes/              GOTraceAttribute y Trace con atributos por nivel
-    buildTransitive/         GO.Log.targets, GOLogTraceRewrite.cs
+    buildTransitive/         mGO.Log.targets, GOLogTraceRewrite.cs
     Extensions/              BeginGOLogOperation
     Security/                GOLogSnapshot
     Exceptions/              GOLogConfigurationException
     Internal/                OptionsSnapshot, GOLogOperationState, GOLogOperationEvent
-  GO.Log.Extensions.Hosting/
-    GO.Log.Extensions.Hosting.csproj
+  mGO.Log.Extensions.Hosting/
+    mGO.Log.Extensions.Hosting.csproj
     Extensions/              AddGOLog
     Configuration/           GOLogOptionsValidator
     Services/                GOLogHostedService, GOLogProviderRegistration
 tests/
-  GO.Log.Tests/              GO.Log.Tests.csproj
-  GO.Log.IntegrationTests/   GO.Log.IntegrationTests.csproj
-  GO.Log.Benchmarks/         GO.Log.Benchmarks.csproj
+  mGO.Log.Tests/              mGO.Log.Tests.csproj
+  mGO.Log.IntegrationTests/   mGO.Log.IntegrationTests.csproj
+  mGO.Log.Benchmarks/         mGO.Log.Benchmarks.csproj
   Get-CoverageSummary.ps1
   Verify-TracePackage.ps1
 samples/
-  GO.Log.Console.Sample/    GO.Log.Console.Sample.csproj, appsettings, perfil de inicio
-  GO.Log.WebApi.Sample/     GO.Log.WebApi.Sample.csproj, appsettings, perfil de inicio
+  mGO.Log.Console.Sample/    mGO.Log.Console.Sample.csproj, appsettings, perfil de inicio
+  mGO.Log.WebApi.Sample/     mGO.Log.WebApi.Sample.csproj, appsettings, perfil de inicio
 docs/
   architecture.md
   configuration.md
@@ -60,7 +60,7 @@ docs/
   implementation-report.md
 artifacts/                  generado e ignorado por Git
   nuget/
-  decorators-final/
+  rename-clean/
   benchmarks-smoke/
   web-sample-smoke/
 ```
@@ -71,14 +71,14 @@ Exactamente ocho proyectos de código fuente, todos `net8.0`, registrados bajo l
 
 | Proyecto | Referencias a proyectos |
 |---|---|
-| GO.Log.Abstractions | Ninguna |
-| GO.Log | GO.Log.Abstractions |
-| GO.Log.Extensions.Hosting | GO.Log |
-| GO.Log.Tests | GO.Log |
-| GO.Log.IntegrationTests | GO.Log.Extensions.Hosting |
-| GO.Log.Benchmarks | GO.Log |
-| GO.Log.Console.Sample | GO.Log.Extensions.Hosting |
-| GO.Log.WebApi.Sample | GO.Log.Extensions.Hosting |
+| mGO.Log.Abstractions | Ninguna |
+| mGO.Log | mGO.Log.Abstractions |
+| mGO.Log.Extensions.Hosting | mGO.Log |
+| mGO.Log.Tests | mGO.Log |
+| mGO.Log.IntegrationTests | mGO.Log.Extensions.Hosting |
+| mGO.Log.Benchmarks | mGO.Log |
+| mGO.Log.Console.Sample | mGO.Log.Extensions.Hosting |
+| mGO.Log.WebApi.Sample | mGO.Log.Extensions.Hosting |
 
 Se utilizan dependencias oficiales de Microsoft para logging/hosting y paquetes de pruebas/benchmarking (xUnit, Microsoft.NET.Test.Sdk, Coverlet y BenchmarkDotNet). Para instrumentar los decoradores se empaquetan herramientas oficiales Roslyn 4.11.0, con Immutable/Reflection.Metadata 8.0.0, como assets de MSBuild y referencias privadas de desarrollo; no son referencias de runtime del consumidor. Se incluyen licencias/avisos originales. No se incorpora un motor de logging externo. Se usan `System.Threading.Channels`, `System.Text.Json` y colecciones inmutables de .NET 8.
 
@@ -110,7 +110,7 @@ Entorno: Windows, SDK .NET 8.0.426 y runtime .NET/ASP.NET Core 8.0.32. También 
 | `dotnet restore All.sln` | Correcta, ocho proyectos |
 | `dotnet build All.sln --configuration Release` | Correcta, cero advertencias y cero errores |
 | `dotnet test All.sln --configuration Release` con Coverlet/TRX | 138 pruebas aprobadas: 108 unitarias y 30 de integración; cero fallidas/omitidas |
-| Pruebas con Coverlet y TRX | Correctas; evidencias en `artifacts/decorators-final` |
+| Pruebas con Coverlet y TRX | Correctas tras renombrar los proyectos y retirar binarios generados obsoletos; evidencias en `artifacts/rename-clean` |
 | MSBuild de Visual Studio 2022 | Build de las pruebas decoradas correcto con MSBuild 17.11.9 para .NET Framework |
 | Consumidor aislado de los NuGet | Correcto, sin ProjectReference ni imports del repositorio; cuatro eventos de entrada/salida en métodos decorados anidados |
 | Diagnóstico de declaración abstracta decorada | Rechazo esperado mediante GOLOGTRACE001; verificación negativa correcta |
@@ -128,9 +128,9 @@ Cobertura de líneas medida por unión de ambas suites, deduplicando módulo/arc
 
 | Módulo | Líneas cubiertas / ejecutables | Cobertura |
 |---|---|---|
-| GO.Log | 584 / 609 | 95.89% |
-| GO.Log.Abstractions | 55 / 55 | 100% |
-| GO.Log.Extensions.Hosting | 26 / 26 | 100% |
+| mGO.Log | 584 / 609 | 95.89% |
+| mGO.Log.Abstractions | 55 / 55 | 100% |
+| mGO.Log.Extensions.Hosting | 26 / 26 | 100% |
 
 Estos porcentajes son de líneas, no una afirmación de cobertura completa de ramas ni de ausencia de errores. `tests/Get-CoverageSummary.ps1` reproduce el cálculo y aplica el umbral de 80%. No se mezclaron corridas fallidas anteriores en esa medición.
 
@@ -143,9 +143,9 @@ La opción de inicio agrega otros 12 casos de integración: continuación en TXT
 ## Paquetes generados
 
 ```text
-artifacts/nuget/GO.Log.Abstractions.1.0.0.nupkg
-artifacts/nuget/GO.Log.1.0.0.nupkg
-artifacts/nuget/GO.Log.Extensions.Hosting.1.0.0.nupkg
+artifacts/nuget/mGO.Log.Abstractions.1.0.0.nupkg
+artifacts/nuget/mGO.Log.1.0.0.nupkg
+artifacts/nuget/mGO.Log.Extensions.Hosting.1.0.0.nupkg
 ```
 
 Metadatos: Authors/Company MarioGO, versión 1.0.0, descripciones por biblioteca, README y copyright. RepositoryUrl proviene del remoto existente `https://github.com/ISCMarioGO/GO.Log`. Los cinco proyectos restantes tienen `IsPackable=false`. No se publicaron paquetes ni se realizaron commits/push.
@@ -163,4 +163,4 @@ Metadatos: Authors/Company MarioGO, versión 1.0.0, descripciones por biblioteca
 - Se ejecutó un smoke test de formatos; las corridas completas de captura y throughput en disco quedan disponibles para caracterizar hardware de producción. No se presentan cifras de rendimiento como resultados representativos.
 - Publicación a un registro remoto pendiente de una solicitud explícita; la entrega local está empaquetada y validada.
 
-No quedan pendientes funcionales conocidos dentro del alcance implementado de GO.Log 1.0.0.
+No quedan pendientes funcionales conocidos dentro del alcance implementado de mGO.Log 1.0.0.

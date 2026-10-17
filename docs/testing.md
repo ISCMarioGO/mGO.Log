@@ -26,9 +26,9 @@ Coverlet genera `coverage.cobertura.xml`. Para cobertura conjunta, combine por m
 ## BenchmarkDotNet
 
 ```powershell
-dotnet run --project tests/GO.Log.Benchmarks --configuration Release -- --filter '*CaptureBenchmarks*'
-dotnet run --project tests/GO.Log.Benchmarks --configuration Release -- --filter '*FormatterBenchmarks*'
-dotnet run --project tests/GO.Log.Benchmarks --configuration Release -- --filter '*DiskThroughputBenchmarks*'
+dotnet run --project tests/mGO.Log.Benchmarks --configuration Release -- --filter '*CaptureBenchmarks*'
+dotnet run --project tests/mGO.Log.Benchmarks --configuration Release -- --filter '*FormatterBenchmarks*'
+dotnet run --project tests/mGO.Log.Benchmarks --configuration Release -- --filter '*DiskThroughputBenchmarks*'
 ```
 
 `CaptureBenchmarks` mide captura Information/Error/estructurada, con sink sin I/O y vaciado fuera de la medición; invalida la corrida si detecta pérdidas. `FormatterBenchmarks` compara TXT Standard/Compact/Trace y JSON de un evento. Ambos usan `MemoryDiagnoser` para asignaciones y GC. `DiskThroughputBenchmarks` incluye captura, creación de archivos, procesamiento, escritura, flush, cierre y limpieza de 1000 eventos, con lotes de 1/64/256 y ambos formatos. Su atribución por operación refleja ese costo completo, no solo el I/O. No compare estos resultados directamente con los de microoperaciones.

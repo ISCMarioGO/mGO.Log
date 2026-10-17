@@ -1,5 +1,5 @@
 param(
-    [string]$ResultsDirectory = (Join-Path $PSScriptRoot '../artifacts/decorators-final'),
+    [string]$ResultsDirectory = (Join-Path $PSScriptRoot '../artifacts/rename-clean'),
     [double]$MinimumLineCoverage = 80
 )
 
@@ -24,7 +24,7 @@ foreach ($report in $reports) {
         }
     }
 }
-foreach ($requiredModule in @('GO.Log.Abstractions', 'GO.Log', 'GO.Log.Extensions.Hosting')) {
+foreach ($requiredModule in @('mGO.Log.Abstractions', 'mGO.Log', 'mGO.Log.Extensions.Hosting')) {
     if (-not $modules.ContainsKey($requiredModule)) { throw "Missing coverage for $requiredModule; run both test suites." }
 }
 $summary = foreach ($name in ($modules.Keys | Sort-Object)) {

@@ -12,5 +12,6 @@
     <Copyright>Copyright © MarioGO 2026</Copyright>
     <RepositoryUrl>https://github.com/ISCMarioGO/GO.Log</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 </Project>
